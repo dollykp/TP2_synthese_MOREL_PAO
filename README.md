@@ -16,4 +16,5 @@ The function getaddrinfo returns a 0 when there is no error. ai_family, ai_proto
 
 4)In Wireshark, we put the following filter :
 "udp && ip.dist==127.0.0.1 && !dns"
+![image](https://github.com/user-attachments/assets/095c43f9-27de-41f7-a101-f98fc0f049f4)
 

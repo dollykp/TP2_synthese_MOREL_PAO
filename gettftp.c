@@ -9,7 +9,7 @@ int main(int argc, char * argv[]){
 	hints.ai_family = AF_INET; /*IPv4*/
 	hints.ai_socktype = SOCK_DGRAM; /*An UDP server listens to a local port, and waits for a datagram.*/
 	hints.ai_protocol = IPPROTO_UDP; /*UDP protocol*/
-	address = getaddrinfo(argv[1], argv[2], &hints, &res);	/*returns a linked list*/
+	address = getaddrinfo(argv[1], argv[2], &hints, &res); /*returns a linked list*/
 															/*returns 0 if it succeeds*/
 	printf("vérification getaddrinfo : %d \n\r", address);
 	for(struct addrinfo *array_i= res; array_i != NULL; array_i = array_i->ai_next){

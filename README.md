@@ -17,6 +17,8 @@ The function getaddrinfo returns a 0 when there is no error. ai_family, ai_proto
 4)
 A RRQ packet is as followed : 
 ![image](img/structureRRQ.jpg)
+We have 0 | 1 | z | e | r | o | s | 2 | 5 | 6 | 0 | o | c | t | e | t | 0
+if we are dealing with the "zeros256" file for example.
 
 In Wireshark, in the lo (Loopback) interface, we put the following filter :
 "udp && ip.dist==127.0.0.1 && udp.port == 1069"

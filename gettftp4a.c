@@ -5,8 +5,8 @@ int main(int argc, char * argv[]){
 	int len=0;
 	int sent;
 	int received;
-	char buffer[516];
-	socklen_t server_len = sizeof(argv[1]);
+	struct sockaddr_storage server_addr;
+	socklen_t server_len = sizeof(server_addr);
 	(void) argc;
 	struct addrinfo hints;
 	struct addrinfo *res;
@@ -24,25 +24,32 @@ int main(int argc, char * argv[]){
 	
 	int sock;
 	sock=socket(res->ai_family,res->ai_socktype,0);
-	sent = sendto(sock, buffer, len, 0, res->ai_addr, res->ai_addrlen);
 	if(sock<0){
 		printf("error while sending");
 		return -1;
 	}
-	close(sock);
 	
-	*((uint16_t *) buffer) = htons(1); // OPCODE RRQ = 1 
+	size_t rrq_len=2+strlen(argv[3]) +1 + strlen("octet")+1;
+	char *rrq=malloc(rrq_len);
+	
+	*((uint16_t *) rrq) = htons(1); // OPCODE RRQ = 1 
 	len += 2;
-	strcpy(buffer + len, argv[3]);
+	strcpy(rrq + len, argv[3]);
 	len += strlen(argv[3]) + 1;
-	received = recvfrom(sock, buffer, sizeof(buffer), 0, (struct sockaddr *) &argv[1], &server_len);
-	//uint16_t opcode = ntohs(*((uint16_t *) buffer));
-	uint16_t block_num = ntohs(*((uint16_t *) (buffer + 2)));
+	strcpy(rrq + len, "octet");
+	len += strlen("octet") + 1;
+	sent = sendto(sock, rrq, len, 0, res->ai_addr, res->ai_addrlen);
+	
+	received = recvfrom(sock, rrq, rrq_len, 0, (struct sockaddr *) &server_addr, &server_len);
+	close(sock);
+	//uint16_t opcode = ntohs(*((uint16_t *) rrq));
+	uint16_t block_num = ntohs(*((uint16_t *) (rrq + 2)));
 	
 	// Construction of ACK packet
         char ack_packet[4];
         *((uint16_t *) ack_packet) = htons(TFTP_OPCODE_ACK);  // OPCODE ACK = 4
         *((uint16_t *) (ack_packet + 2)) = htons(block_num);
+        sent = sendto(sock, ack_packet, sizeof(ack_packet), 0, (struct sockaddr *) &server_addr, server_len);
 	printf("sent : %d \n\r",sent);
 	printf("received : %d \n\r",received);
 }

@@ -14,7 +14,11 @@ The function getaddrinfo returns a 0 when there is no error. ai_family, ai_proto
 
 3)We reserve a connection socket to the server.
 
-4)In Wireshark, in the lo (Loopback) interface, we put the following filter :
+4)
+A RRQ packet is as followed : 
+![image](img/structureRRQ.jpg)
+
+In Wireshark, in the lo (Loopback) interface, we put the following filter :
 "udp && ip.dist==127.0.0.1 && udp.port == 1069"
 ![image](https://github.com/user-attachments/assets/095c43f9-27de-41f7-a101-f98fc0f049f4)
 

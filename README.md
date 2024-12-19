@@ -14,6 +14,4 @@ To test the function, we put in the terminal the following command :
 
 127.0.0.1 is the address of the server, 1069 is the port's number and zeros256 the file's name.
 
-![alt text](question3.jpg)
-
 La fonction getaddrinfo retourne 0 donc il n'y a pas d'erreurs. Les valeurs de ai_family, ai_protocol et ai_socket retournent les bonnes valeurs.

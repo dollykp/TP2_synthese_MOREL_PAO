@@ -10,7 +10,7 @@ Indications : n in the "gettftpn.c" files means that it's the n-th question.
 2)To test the function, we put in the terminal the following command : ./gettftp3 127.0.0.1 1069 zeros256
 127.0.0.1 is the address of the server, 1069 is the port's number and zeros256 the file's name.
 
-![image](question3.jpg)
+![image](C:\Users\Dolly PAO\Documents\ENSEA\2425\PROG_SYST_S7\TP_SYNTHESE\TP2_synthese_MOREL_PAO\img\question3.jpg)
 The function getaddrinfo returns a 0 when there is no error. ai_family, ai_protocol and ai_socket return the values they are rightly associated to.
 
 3)We reserve a connection socket to the server.

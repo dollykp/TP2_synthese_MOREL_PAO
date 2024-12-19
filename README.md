@@ -12,6 +12,7 @@ First, in order to obtain the server's address, we re-used the code previously u
 To test the function, we put in the terminal the following command : ./gettftp3 127.0.0.1 1069 zeros256
 127.0.0.1 is the address of the server, 1069 is the port's number and zeros256 the file's name.
 ![image](img/question3.jpg)
+![image](img/values_ai.jpg)
 The function getaddrinfo returns a 0 when there is no error. ai_family, ai_protocol and ai_socket return the values they are rightly associated to.
 
 ## Question 3

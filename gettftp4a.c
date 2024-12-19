@@ -11,10 +11,11 @@ int main(int argc, char * argv[]){
 	struct addrinfo hints;
 	struct addrinfo *res;
 	memset(&hints, 0, sizeof(hints));
-	hints.ai_family = AF_INET;
-	hints.ai_socktype = SOCK_DGRAM;
-	hints.ai_protocol = IPPROTO_UDP;
-	address = getaddrinfo(argv[1], argv[2], &hints, &res);
+	hints.ai_family = AF_INET; /*IPv4*/
+	hints.ai_socktype = SOCK_DGRAM; /*An UDP server listens to a local port, and waits for a datagram.*/
+	hints.ai_protocol = IPPROTO_UDP; /*UDP protocol*/
+	address = getaddrinfo(argv[1], argv[2], &hints, &res); /*returns a linked list*/
+							       						   /*returns 0 if it succeeds*/
 	printf("verification of getaddrinfo : %d \n\r", address);
 	for(struct addrinfo *array_i= res; array_i != NULL; array_i = array_i->ai_next){
 		printf("ai_family : %d \n\r", array_i->ai_family);
@@ -22,6 +23,7 @@ int main(int argc, char * argv[]){
 		printf("ai_protocol : %d \n\r", array_i->ai_protocol);
 	}
 	
+	/*reserving a connection socket to the server*/
 	int sock;
 	sock=socket(res->ai_family,res->ai_socktype,0);
 	if(sock<0){
@@ -30,13 +32,13 @@ int main(int argc, char * argv[]){
 	}
 	
 	size_t rrq_len=2+strlen(argv[3]) +1 + strlen("octet")+1;
-	char *rrq=malloc(rrq_len);
+	char *rrq=malloc(rrq_len); /*allocate a block of memory the size of rrq_len*/
 	
 	*((uint16_t *) rrq) = htons(1); // OPCODE RRQ = 1 
 	len += 2;
-	strcpy(rrq + len, argv[3]);
+	strcpy(rrq + len, argv[3]); /*argv[3] is the file's name*/
 	len += strlen(argv[3]) + 1;
-	strcpy(rrq + len, "octet");
+	strcpy(rrq + len, "octet"); /*octet mode in TFTP*/
 	len += strlen("octet") + 1;
 	sent = sendto(sock, rrq, len, 0, res->ai_addr, res->ai_addrlen);
 	
